@@ -1,0 +1,43 @@
+\documentclass{article}
+\usepackage{amsmath, fullpage, amssymb}
+%\DeclareMathOperator{Pr}{\text{Pr}}
+\begin{document}
+\section*{Labeled transition PMF}
+Suppose $\{X_t\}$ is a two-state
+continuous time Markov chain with infinitesimal generator
+\begin{equation*}
+\Lambda = \begin{pmatrix}
+ -\lambda_1 & \lambda_1 \\
+ \lambda_2 & -\lambda_2
+\end{pmatrix}
+\end{equation*}
+with $\lambda_1 > 0$ and $\lambda_2 > 0$. We take $X_t$ to have initial
+state $X_o = 1$. Let $\{N_t\}$ be a process
+counting the number of transitions $\{(1,2),(2,1)\}$ made in $\{X_t\}$.
+We derive an alternate expression for the probability mass function
+of $N_t$, which we denote as $q_n(t)$ = $Pr(N_t = n | X_t = 1)$. Recall
+the Laplace transform of $q_n$:
+\begin{equation*}
+f_{2k}(s) = \frac{\lambda_1^k \lambda_2^k}{(s + \lambda_1)^{k+1}(s + \lambda_2)^k} \quad \quad
+f_{2k-1}(s) = \frac{\lambda_1^k \lambda_2^{k-1}}{(s + \lambda_1)^k(s + \lambda_2)^k}
+\end{equation*}
+Using the convolution property of the Laplace transform, we express
+\begin{flalign*}
+q_{2k-1}(t) =& \frac{\lambda_1^k\lambda_2^{k-1}}{(k-1)!(k-1)!)}
+ \int_0^t \tau^{k-1} e^{-\lambda_1 \tau} (t - \tau)^{k-1} e^{-\lambda_2(t - \tau)}d\tau \\
+=& \frac{\lambda_1^k\lambda_2^{k-1}}{\Gamma(k)^2}e^{-\lambda_2 t}
+ t^{2k - 1}\int_0^1 s^{k-1}(1 - s)^{k-1}e^{t(\lambda_2 - \lambda_1)s}ds \\
+=& \frac{\lambda_1^k\lambda_2^{k-1}}{\Gamma(2k)}e^{-\lambda_2 t}
+ t^{2k - 1} E[e^{t(\lambda_2 - \lambda_1)X}], \quad X \sim Beta(k, k) \\
+=& \frac{\lambda_1^k\lambda_2^{k-1}}{\Gamma(2k)}e^{-\lambda_2 t}
+ t^{2k - 1} F_{11}\left(k, 2k, t(\lambda_2 - \lambda_1)\right).
+\end{flalign*}
+A similar calculation shows
+\begin{equation*}
+q_{2k}(t) = \frac{\lambda_1^k\lambda_2^k}{\Gamma(2k + 1)}e^{-\lambda
+The function $F_{11}(a, b, x)$ is the confluent hypergeometric function.
+
+In our case the confluent hypergeometric function shares a connection 
+with the spherical bessel function of the first kind, commonly denoted 
+as $I_k(x)$.
+\end{document}
