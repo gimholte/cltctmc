@@ -30,14 +30,35 @@ q_{2k-1}(t) =& \frac{\lambda_1^k\lambda_2^{k-1}}{(k-1)!(k-1)!)}
 =& \frac{\lambda_1^k\lambda_2^{k-1}}{\Gamma(2k)}e^{-\lambda_2 t}
  t^{2k - 1} E[e^{t(\lambda_2 - \lambda_1)X}], \quad X \sim Beta(k, k) \\
 =& \frac{\lambda_1^k\lambda_2^{k-1}}{\Gamma(2k)}e^{-\lambda_2 t}
- t^{2k - 1} F_{11}\left(k, 2k, t(\lambda_2 - \lambda_1)\right).
+ t^{2k - 1}\, _1F_1\left(k, 2k, t(\lambda_2 - \lambda_1)\right).
 \end{flalign*}
 A similar calculation shows
 \begin{equation*}
-q_{2k}(t) = \frac{\lambda_1^k\lambda_2^k}{\Gamma(2k + 1)}e^{-\lambda
-The function $F_{11}(a, b, x)$ is the confluent hypergeometric function.
+q_{2k}(t) = \frac{\lambda_1^k\lambda_2^k}{\Gamma(2k + 1)}e^{-\lambda_2t}
+t^{2k}\, _1F_1\left(k + 1, 2k + 1, t(\lambda_2 - \lambda_1)\right)
+\end{equation*}
+The function $_1F_1(a, b, x)$ is the confluent hypergeometric function.
+\subsection*{Evaluating $_1F_1(k, 2k, x)$}
 
-In our case the confluent hypergeometric function shares a connection 
-with the spherical bessel function of the first kind, commonly denoted 
-as $I_k(x)$.
+In certain cases the confluent hypergeometric function shares a connection 
+with the spherical Bessel function of the first kind, commonly denoted 
+as $I_k(x)$. In particular,
+\begin{equation*}
+  _1F_1(k, 2k, x) = e^{\frac{x}{2}}\left(\frac{1}{4}x\right)^{\frac{1}{2} - k}
+\Gamma\left(k + \frac{1}{2}\right)I_{k-\frac{1}{2}}\left(\frac{1}{2}x\right).
+\end{equation*}
+The Bessel function $I_\alpha$ is not necessarily cheap to compute. Fortunately 
+this Bessel function obeys a linear difference equation. For $n = 1, 2, \ldots$,
+\begin{equation*}
+\frac{2\nu}{x}I_\nu(x) + I_{\nu + 1}(x) = I_{\nu - 1}(x)
+\end{equation*}
+This recursion is stable in the backward direction when $x > 0$. The forward direction 
+suffers from heavy cancellation when $x > 0$ and must be avoided.
+\subsection*{Evaluating $_1F_1(k + 1, 2k + 1, x)$}
+The confluent hypergeometric function obeys a variety of contiguous relations. Given values
+$_1F_1(k, 2k, x)$ and $_1F_1(k + 1, 2k + 2, x)$, we may compute
+\begin{equation*}
+  _1F_1(k + 1, 2k + 1, x) = \,_1F_1(k, 2k, x) + \frac{x}{4k + 2}\,_1F_1(k + 1, 2k + 2, x)
+\end{equation*}
+
 \end{document}
