@@ -1,3 +1,12 @@
 .cproject
 .project
 Debug/
+cltctmc_probs.log
+cltctmc_probs.aux
+cltctmc_probs.dvi
+scratch.R
+.externalToolBuilders/
+.settings/
+*.so
+*.o
+*.rds
