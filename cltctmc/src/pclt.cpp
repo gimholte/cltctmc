@@ -77,11 +77,11 @@ void hypgeoF11_k_2k(const double x, NumericVector & result, double *work_bi) {
     // compute log bessel function values.
     R::bessel_i_ex(y, (kmax + 1) - .5, 2.0, work_bi);
     int k = kmax;
-    while(work_bi[k] == 0.0 & k >= 0) {
+    while((work_bi[k] == 0.0 || !R_FINITE(work_bi[k])) && k >= 0) {
         work_bi[k] = scaledLogBesselLargeNu((k + 1) - .5, y);
         k--;
     }
-    while(work_bi[k] > 0.0 & k >= 0) {
+    while(k >= 0 && work_bi[k] > 0.0) {
         work_bi[k] = log(work_bi[k]);
         k--;
     }
