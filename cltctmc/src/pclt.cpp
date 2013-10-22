@@ -64,9 +64,9 @@ static double scaledLogBesselLargeNu(const double nu, const double x) {
     return (-.5 * log(2.0 * M_PI * nu * root_term) + nu * eta + log1p(sum) - x);
 }
 
-void hypgeoF11_k_2k(const double x, NumericVector & result, double *work_bi) {
+void hypgeoF11_k_2k(const double x, arma::subview_col<double> result, double *work_bi) {
 // Compute 1F1(k, 2k)
-    const int len = result.size();
+    const int len = result.n_elem;
     if ((len == 1) || (x <= 0.0))
         return;
     const int nmax = len - 1;
@@ -99,8 +99,8 @@ void hypgeoF11_k_2k(const double x, NumericVector & result, double *work_bi) {
     return;
 }
 
-void hypgeoF11_kp1_2kp1(const double x, NumericVector & result, const double *work_bi) {
-    const int len = result.size();
+void hypgeoF11_kp1_2kp1(const double x, arma::subview_col<double> result, const double *work_bi) {
+    const int len = result.n_elem;
     if ((len == 1) || (x <= 0.0))
         return;
     const int nmax = len - 1;
@@ -119,8 +119,8 @@ void hypgeoF11_kp1_2kp1(const double x, NumericVector & result, const double *wo
     return;
 }
 
-void hypgeoF11_k_2kp1(const double x, NumericVector & result, const double *work_bi) {
-    const int len = result.size();
+void hypgeoF11_k_2kp1(const double x, arma::subview_col<double> result, const double *work_bi) {
+    const int len = result.n_elem;
     if ((len == 1) || (x <= 0.0))
         return;
     const int nmax = len - 1;
@@ -140,13 +140,13 @@ void hypgeoF11_k_2kp1(const double x, NumericVector & result, const double *work
 }
 
 void pclt(const double t, const double lambda_1, const double lambda_2,
-        NumericVector & result){
+        arma::subview_col<double> result){
     if (lambda_1 == lambda_2) {
-        for(int k = 0; k < result.size(); k++)
+        for(int k = 0; k < result.n_elem; k++)
             result[k] = R::dpois(k, t * lambda_1, 1);
         return;
     }
-    const int len = result.size();
+    const int len = result.n_elem;
     const int nmax = len - 1;
     const int kmax = getMaxK(nmax);
     double *work_bi = (double *) R_alloc((kmax + 1), sizeof(double));
@@ -177,21 +177,21 @@ void pclt(const double t, const double lambda_1, const double lambda_2,
 }
 
 RcppExport SEXP hypgeo_test(SEXP rx, SEXP rout) {
-    NumericVector x(rx);
-    NumericVector out(rout);
+    arma::vec x = Rcpp::as<arma::vec>(rx);
+    arma::vec out = Rcpp::as<arma::vec>(rout);
     const int nmax = out.size() - 1;
     const int kmax = getMaxK(nmax);
     double * work = (double *) R_alloc((kmax + 1), sizeof(double));
-    hypgeoF11_k_2k(x[0], out, work);
-    return out;
+    hypgeoF11_k_2k(x[0], out.col(0), work);
+    return Rcpp::wrap(out);
 }
 
 RcppExport SEXP pclt_test(SEXP rpar, SEXP rout) {
-    NumericVector out(rout);
+    arma::vec out = Rcpp::as<arma::vec>(rout);
     NumericVector par(rpar);
     const double t = par[0], l1 = par[1], l2 = par[2];
-    pclt(t, l1, l2, out);
-    return out;
+    pclt(t, l1, l2, out.col(0));
+    return Rcpp::wrap(out);
 }
 
 
