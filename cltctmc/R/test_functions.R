@@ -9,3 +9,10 @@ pclt_test <- function(t, l1, l2, nmax) {
             as.double(rep(0.0, nmax + 1)),
             PACKAGE = "cltctmc"))	
 }
+
+tree_class_test <- function(tree, l1, l2, nmax) {
+    .Call("treeCltSum", tree$edge, tree$edge.length,
+            tree$tip.state, l1, l2, nmax, PACKAGE = "cltctmc")
+}
+
+
