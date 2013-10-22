@@ -10,3 +10,4 @@ scratch.R
 *.so
 *.o
 *.rds
+valgrind_test.R*
